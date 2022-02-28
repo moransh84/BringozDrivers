@@ -18,44 +18,35 @@ A driver model should store the following data: personal information (such as na
 To run the application use `./gradlew bootRun`
 
 ## Endpoints
-## Basic Endpoints
+### Basic Endpoints
 The microservice should expose CRUD endpoints in a RESTful way and respond with JSON format.
 
-### Create driver
+#### Create driver
 - Route: `/drivers/add`
 - Method: `POST`
 
-### Get driver
+#### Get driver
 - Route: `/drivers/:id`
+- Method: `GET`
 
-### update driver
+#### update driver
+- Route: `/drivers/:id`
+- Method: `PUT`
 
-### delete driver
+#### delete driver
+- Route: `/drivers/:id`
+- Method: `DELETE`
 
-### get all drivers
+#### get all drivers
+- Route: `/drivers/all`
+- Method: `GET`
 
-## Query Endpoints
+### Query Endpoints
 
-### Active Drivers
+#### Active Drivers
 Query all active drivers
 - Route: `/active-drivers`
 
-### Drivers In Time Window
+#### Drivers In Time Window
+Query all drivers that working in a specific time window
 - Route: `/time-window?fromHour=:fromHour&toHour=:toHour`
-
-The microservice should expose a query endpoints with the ability to query all active drivers, drivers that currently located in map bounds and drivers that working in a specific time window.
-
-
-
-curl 'http://localhost:8080/drivers/all'
-
-curl http://localhost:8080/drivers/add -d name=dorka -d age=25 -d address=holon -d status=INACTIVE -d startWorkingHour=12 -d endWorkingHour=17 -d latitude=12.552 -d long
-itude=35.55 -X POST
-
-// לא ביצענו בדיקה לנתונים שנכנסים
-
-curl 'http://localhost:8080/drivers/5' -X DELETE
-
-curl 'http://localhost:8080/drivers/active'
-
-curl http://localhost:8080/drivers/timeWindow -d fromHour=10 -d toHour=17

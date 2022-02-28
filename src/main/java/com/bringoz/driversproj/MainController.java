@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -100,17 +101,17 @@ public class MainController {
 		return driverRepository.getActiveDrivers();
 	}
 
-	@GetMapping(path="/mapBounds/{i}")
-	public @ResponseBody Integer isDriverInMapBounds(@PathVariable Integer i){ //(@RequestParam Point point){
+	@GetMapping(path="/mapBounds/{point}")
+	public @ResponseBody void isDriverInMapBounds(@RequestParam ArrayList<Point> polygonPoints,
+													 @PathVariable Point point){
 
+//		TODO: create new Polygon map by polygonPoints and check if the Polygon contains the point accepted in the path
 //		Polygon polygon = new Polygon();
 //		polygon.addPoint(-10, -10);
 //		polygon.addPoint(-10, 10);
 //		polygon.addPoint(10, 10);
 //		polygon.addPoint(10, -10);
-//
 //		System.out.println(polygon.contains(0, 0));
-		return i;
 	}
 
 	@GetMapping(path="/time-window")
