@@ -1,6 +1,7 @@
 package com.bringoz.driversproj;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -94,19 +95,9 @@ public class MainController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
-	@GetMapping(path="/active")
+	@GetMapping(path="/active-drivers")
 	public @ResponseBody ArrayList<Driver> getActiveDrivers() {
-		// This returns the drivers with the "ACTIVE" status
-		ArrayList<Driver> allDrivers = (ArrayList<Driver>) driverRepository.findAll();
-		ArrayList<Driver> activeDrivers = new ArrayList<>();
-
-		for (int i = 0; i < allDrivers.size(); i++) {
-			if (allDrivers.get(i).getStatus() == Status.ACTIVE){
-				activeDrivers.add(allDrivers.get(i));
-			}
-		}
-
-		return activeDrivers;
+		return driverRepository.getActiveDrivers();
 	}
 
 	@GetMapping(path="/mapBounds/{i}")
@@ -122,30 +113,9 @@ public class MainController {
 		return i;
 	}
 
-
-	@PostMapping(path="/timeWindow")
-	public @ResponseBody ArrayList<Driver> getTimeWindowDrivers (@RequestParam Integer fromHour,
+	@GetMapping(path="/time-window")
+	public @ResponseBody ArrayList<Driver> getDriversInTimeWindow (@RequestParam Integer fromHour,
 															  	 @RequestParam Integer toHour) {
-		ArrayList<Driver> allDrivers = (ArrayList<Driver>) driverRepository.findAll();
-		ArrayList<Driver> TimeWindowDrivers = new ArrayList<>();
-
-		SimpleDateFormat formatter = new SimpleDateFormat("HH");
-
-		try {
-			Date from = formatter.parse(fromHour.toString());
-			Date to = formatter.parse(toHour.toString());
-
-			for (int i = 0; i < allDrivers.size(); i++) {
-				Date startWorkingHour = formatter.parse(allDrivers.get(i).getStartWorkingHour().toString());
-				Date endWorkingHour = formatter.parse(allDrivers.get(i).getEndWorkingHour().toString());
-				if (from.compareTo(startWorkingHour) <= 0 &&  to.compareTo(endWorkingHour) >= 0){
-					TimeWindowDrivers.add(allDrivers.get(i));
-				}
-			}
-		}
-		catch (java.text.ParseException e) {};
-
-		return TimeWindowDrivers;
+		return driverRepository.getDriversInTimeWindow(fromHour, toHour);
 	}
-
 }
